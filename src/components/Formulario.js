@@ -7,8 +7,6 @@ app (states: 1)
     formulario (states: 2)
 
 
-
-
 */
 
 const Formulario = ({crearTurno}) => {

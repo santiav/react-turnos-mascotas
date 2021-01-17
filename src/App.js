@@ -1,5 +1,6 @@
-import Formulario from './components/Formulario'
 import { useState } from 'react';
+import Formulario from './components/Formulario'
+import Turno from './components/Turno'
 
 function App() {
 
@@ -26,7 +27,13 @@ function App() {
               />
           </div>
           <div className="one-half column">
-              2
+              <h2>Administra tus turnos</h2>
+              {turnoS.map(item => (
+                <Turno 
+                  key={item.id}
+                  turno={item}
+                />
+              ))}
           </div>
         </div>
       </div>
