@@ -1,8 +1,9 @@
 import {useState} from 'react';
+import { nanoid } from 'nanoid'
 import './componentes.css';
 
 /*
-app
+app (states: 1)
     formulario (states: 2)
 
 
@@ -10,7 +11,7 @@ app
 
 */
 
-const Formulario = () => {
+const Formulario = ({crearTurno}) => {
 
     // Crear state de citas
     const [turno, actualizarTurno] = useState({
@@ -21,12 +22,14 @@ const Formulario = () => {
         sintomas:''
     })
 
+    // Validación: si hay error (true, false)
+    const [error, actualizarError ] = useState(false)
 
 
-
+    // FUNCIÓN -----------
     // función que se actualiza cada vez que el usuario escribe en un input
     const actualizarState = evento => {
-        console.log("Propiedades de la etiqueta", evento)
+        // console.log("Propiedades de la etiqueta", evento)
         actualizarTurno({
             ...turno,
             //mascota: evento.target.value
@@ -37,23 +40,38 @@ const Formulario = () => {
     // extraer valores (nos va a permitir resetear el formulario)
     const { mascota,propietario,fecha,hora,sintomas } = turno;
 
+    // FUNCIÓN -----------
     // cuando se envia el formulario
     const submitTurno = evento => {
         evento.preventDefault()
-        
 
         // validar
         if (mascota.trim() === '' || propietario.trim() === '' || fecha.trim() === '' || hora.trim() === '' || sintomas.trim() === '' ) /* trim permite remover espacios en blanco*/ {
-         
+            actualizarError(true);
             return; // evita que se ejecute el codigo a continuacion
         }
 
-        // asignar id
+        // pasó la validación y entonces continua ejecutando el código
+        // ---------------
 
-        // crear cita
+        // eliminar mensaje de error (si quedó en true por un intento anterior)
+        actualizarError(false)
+
+        // asignar id
+        turno.id = nanoid();
+        console.log(turno)
+
+        // almacenar turno gracias a la función en app.js
+        crearTurno(turno)
 
         // reiniciar el form
-
+        actualizarTurno({
+            mascota: '',
+            propietario: '',
+            fecha:'',
+            hora:'',
+            sintomas:''
+        })
 
     }
 
@@ -61,6 +79,9 @@ const Formulario = () => {
     return ( 
         <div id="formulario">
             <h2>Crear turno</h2>
+
+            
+            { /* Si error es true, se muestra */ error ? <p className="alerta-error">Campos obligatorios</p>: null }
 
             <form
                 onSubmit={submitTurno}
