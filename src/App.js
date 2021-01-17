@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Formulario from './components/Formulario'
 import Turno from './components/Turno'
+import PropTypes from 'prop-types'
 
 function App() {
 
@@ -65,6 +66,10 @@ function App() {
       </div>
     </>
   );
+}
+
+Formulario.propTypes = {
+  crearTurno: PropTypes.func.isRequired
 }
 
 export default App;
